@@ -19,7 +19,9 @@ param (
     $CloneProjectVersioningReleaseCreationSettings,
     $CloneProjectDeploymentProcess,
     $IgnoreVersionCheckResult,
-    $SkipPausingWhenIgnoringVersionCheckResult  
+    $SkipPausingWhenIgnoringVersionCheckResult,
+
+    [switch]$Force #CM: By default script will not change destination server. Provide -Force to execute script fully.
 )
 
 $ErrorActionPreference = "Stop"
@@ -646,6 +648,7 @@ Write-OctopusSuccess "  -CloneProjectVersioningReleaseCreationSettings $ClonePro
 Write-OctopusSuccess "  -CloneProjectDeploymentProcess $CloneProjectDeploymentProcess"
 Write-OctopusSuccess "  -IgnoreVersionCheckResult $IgnoreVersionCheckResult"
 Write-OctopusSuccess "  -SkipPausingWhenIgnoringVersionCheckResult $SkipPausingWhenIgnoringVersionCheckResult"
+Write-OctopusSuccess "  -Force $Force"
 
 $cloneSpaceScript = "$PSScriptRoot\CloneSpace.ps1"
 & $cloneSpaceScript `
@@ -672,7 +675,7 @@ $cloneSpaceScript = "$PSScriptRoot\CloneSpace.ps1"
     -TargetsToClone "$($cloneSpaceCommandLineOptions.TargetsToClone)" `
     -SpaceTeamsToClone "$($cloneSpaceCommandLineOptions.SpaceTeamsToClone)" `
     -PackagesToClone "$($cloneSpaceCommandLineOptions.PackagesToClone)" `
-    -OverwriteExistingVariables "$OverwriteExistingVariables" `    
+    -OverwriteExistingVariables "$OverwriteExistingVariables" `
     -OverwriteExistingCustomStepTemplates "$OverwriteExistingCustomStepTemplates" `
     -OverwriteExistingLifecyclesPhases "$OverwriteExistingLifecyclesPhases" `
     -CloneProjectChannelRules "$CloneProjectChannelRules" `
@@ -680,5 +683,6 @@ $cloneSpaceScript = "$PSScriptRoot\CloneSpace.ps1"
     -CloneProjectVersioningReleaseCreationSettings "$CloneProjectVersioningReleaseCreationSettings" `
     -CloneProjectDeploymentProcess "$CloneProjectDeploymentProcess" `
     -IgnoreVersionCheckResult "$IgnoreVersionCheckResult" `
-    -SkipPausingWhenIgnoringVersionCheckResult "$SkipPausingWhenIgnoringVersionCheckResult" 
+    -SkipPausingWhenIgnoringVersionCheckResult "$SkipPausingWhenIgnoringVersionCheckResult" `
+    -Force:$Force
 
